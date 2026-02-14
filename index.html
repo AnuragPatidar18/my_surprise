@@ -50,6 +50,7 @@
       body{ background-attachment: scroll; }
     }
 
+    /* subtle floating sparkles */
     .sparkle-bg{
       position: fixed;
       inset: 0;
@@ -135,16 +136,14 @@
     .screen{ display:none; }
     .screen.active{ display:block; }
 
+    /* START screen layout */
     .hero{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
       gap:14px;
       align-items:stretch;
     }
-    @media (max-width: 860px){
-      .hero{ grid-template-columns:1fr; }
-      .panel{ padding: 14px; }
-    }
+    @media (max-width: 860px){ .hero{ grid-template-columns:1fr; } }
 
     .panel{
       border:1px solid rgba(255,255,255,.14);
@@ -164,6 +163,15 @@
       gap:10px;
       align-items:center;
       flex-wrap:wrap;
+      font-weight: 900;
+    }
+    .typing{
+      border-right: 2px solid rgba(255,255,255,.85);
+      padding-right: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      max-width: 100%;
     }
     .pet{
       margin:10px 0 0;
@@ -210,17 +218,13 @@
       border:1px solid rgba(255,255,255,.18);
       color: rgba(255,255,255,.92);
     }
-
-    .btn[disabled]{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none !important;
-    }
+    .btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none !important; }
 
     .btnAbs{ position:absolute; }
     .startYes{ left: 16px; top: 36px; }
     .startNo{ right: 16px; top: 36px; }
 
+    /* ✅ better for small screens */
     @media (max-width: 520px){
       .btnAbs{ position: static !important; }
       .arena{
@@ -301,9 +305,7 @@
       align-items:center;
       margin-top: 10px;
     }
-    .lockRow input{
-      flex: 1 1 180px;
-    }
+    .lockRow input{ flex: 1 1 180px; }
     .okTag{
       display:inline-flex;
       align-items:center;
@@ -316,7 +318,60 @@
       background: rgba(0,0,0,.12);
     }
 
-    /* QUIZ */
+    /* ✅ Memory timeline (#4) */
+    .timeline{
+      margin-top: 12px;
+      display:grid;
+      gap:10px;
+    }
+    .tItem{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.14);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color: rgba(255,255,255,.86);
+      font-size: 13.5px;
+      line-height:1.45;
+    }
+    .tIcon{ font-size: 16px; line-height: 1; margin-top: 1px; }
+    .tText b{ color:#fff; }
+
+    /* ✅ Mood toggle (#6) */
+    body.night{
+      filter: hue-rotate(18deg) brightness(.92);
+    }
+
+    /* ✅ Floating love notes (#2) */
+    .loveNote{
+      position: fixed;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13.5px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 2500;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+      animation: floatUp 8s linear forwards;
+      max-width: 86vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    @keyframes floatUp{
+      0%{ transform: translateX(-50%) translateY(0); opacity: 0; }
+      10%{ opacity: .92; }
+      100%{ transform: translateX(-50%) translateY(-120vh); opacity: 0; }
+    }
+
+    /* QUIZ screen */
     .qBox{
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.14);
@@ -413,6 +468,7 @@
       align-items:center;
     }
 
+    /* Skip button that runs away */
     .skipArena{
       position: relative;
       height: 64px;
@@ -617,6 +673,71 @@
       max-width: 92vw;
       text-align:center;
     }
+
+    /* ✅ Heartbeat effect (#7) */
+    .heartbeat{
+      display:inline-block;
+      animation: beat 1.15s ease-in-out infinite;
+      transform-origin:center;
+    }
+    @keyframes beat{
+      0%,100%{ transform: scale(1); }
+      45%{ transform: scale(1.08); }
+      65%{ transform: scale(1.02); }
+    }
+
+    /* ✅ YES effects layers: confetti + hearts + fireworks */
+    .fx-layer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 3000;
+    }
+    .confetti{
+      position:absolute;
+      top:-20px;
+      width:8px;
+      height:14px;
+      border-radius:6px;
+      opacity:.95;
+      transform: rotate(0deg);
+      animation: confFall linear forwards;
+    }
+    @keyframes confFall{
+      to{
+        transform: translate(var(--dx), 110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    .heartFx{
+      position:absolute;
+      bottom:-30px;
+      font-size: 18px;
+      opacity: .95;
+      animation: heartRise linear forwards;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.35));
+    }
+    @keyframes heartRise{
+      to{
+        transform: translate(var(--dx), -120vh) scale(1.25);
+        opacity: 0;
+      }
+    }
+    .firework{
+      position:fixed;
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      transform: translate(-50%, -50%);
+      z-index: 3500;
+      pointer-events:none;
+      animation: fw 950ms ease-out forwards;
+    }
+    @keyframes fw{
+      0%{opacity:1; transform: translate(-50%,-50%) scale(.7)}
+      100%{opacity:0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2)}
+    }
   </style>
 </head>
 
@@ -624,7 +745,10 @@
   <div class="sparkle-bg"></div>
 
   <!-- ✅ MUSIC (Put your song file in same folder: song.mp3) -->
-  <audio id="bgMusic" src="./song.mp3" preload="auto" loop></audio>
+  <audio id="bgMusic" src="./song.mp3" preload="auto" loop autoplay muted></audio>
+
+  <!-- ✅ FX layer -->
+  <div class="fx-layer" id="fxLayer"></div>
 
   <div class="wrap">
     <div class="card">
@@ -643,7 +767,8 @@
         <div class="screen active" id="startScreen">
           <div class="hero">
             <div class="panel">
-              <p class="bigTitle">Khushu <span aria-hidden="true">❤️</span></p>
+              <!-- ✅ #1 Typing animation -->
+              <p class="bigTitle"><span id="typeName" class="typing"></span> <span aria-hidden="true">❤️</span></p>
 
               <!-- ✅ OTP PASSWORD LOCK -->
               <div class="lockBox">
@@ -654,12 +779,17 @@
 
                 <div class="lockRow">
                   <input id="otpInput" inputmode="numeric" placeholder="Enter OTP (4 digit)" maxlength="10" />
-                  <button class="btn btnPrimary" id="unlockBtn">Unlock 💖</button>
+                  <button class="btn btnPrimary" id="unlockBtn" type="button">Unlock 💖</button>
                 </div>
 
                 <div class="lockRow" style="justify-content:space-between;">
                   <span class="okTag" id="lockStatus">🔒 Locked — OTP required</span>
                   <button class="btn btnAlt" id="musicToggleBtn" type="button">🔇 Music Off</button>
+                </div>
+
+                <!-- ✅ #6 Mood button -->
+                <div class="lockRow">
+                  <button class="btn btnAlt" id="moodBtn" type="button">Change Mood 🌙✨</button>
                 </div>
               </div>
 
@@ -675,6 +805,16 @@
               </div>
 
               <div class="hintBox">💌 Rule: OTP ke bina “Start” ka jadoo nahi chalega 😌💖</div>
+
+              <!-- ✅ #4 Timeline -->
+              <div class="timeline" aria-label="Our memories timeline">
+                <div class="tItem"><div class="tIcon">💫</div><div class="tText"><b>First Meet</b><br/>Woh moment jab sab kuch quietly special ho gaya…</div></div>
+                <div class="tItem"><div class="tIcon">🌹</div><div class="tText"><b>First Date</b><br/>Dil ka thoda sa shor… aur tumhari smile ka jaadu ✨</div></div>
+                <div class="tItem"><div class="tIcon">😅</div><div class="tText"><b>First Fight</b><br/>Thoda gussa… par pyaar usse bhi zyada 💖</div></div>
+                <div class="tItem"><div class="tIcon">❤️</div><div class="tText"><b>First “I Love You”</b><br/>Woh words… jo dil se nikle aur rooh tak chhoo gaye 🫶</div></div>
+                <div class="tItem"><div class="tIcon">🤞</div><div class="tText"><b>Together Always</b><br/>Chahe kuch bhi ho… main tumhara, tum meri 🤍</div></div>
+                <div class="tItem"><div class="tIcon">♾️</div><div class="tText"><b>Forever</b><br/>Bas yahi chahiye… tum, main, aur hamesha.</div></div>
+              </div>
             </div>
 
             <div class="panel soft">
@@ -702,13 +842,13 @@
             <div class="options" id="options"></div>
 
             <div class="skipArena" id="skipArena">
-              <button class="btn btnAlt skipBtn" id="skipBtn">Skip 🙈</button>
+              <button class="btn btnAlt skipBtn" id="skipBtn" type="button">Skip 🙈</button>
             </div>
           </div>
 
           <div class="actions">
             <span class="chip" id="chip">💖 Oyyy meri Rasmalai 😚</span>
-            <button class="btn btnPrimary" id="nextBtn">Next 💖</button>
+            <button class="btn btnPrimary" id="nextBtn" type="button">Next 💖</button>
           </div>
         </div>
 
@@ -729,12 +869,25 @@
       <div class="finalBody">
         <div class="messageBox" id="finalMsg"></div>
 
+        <!-- ✅ #3 Proposal buttons (and #7 heartbeat on line inside message) -->
+        <div class="galleryTitle">💍 Answer me, my love…</div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom: 10px;">
+          <button class="btn btnPrimary" id="yesBtn1" type="button">Yes 💖</button>
+          <button class="btn btnPrimary" id="yesBtn2" type="button">Always Yes 😘</button>
+        </div>
+
         <div class="galleryTitle">✨ A little surprise for you…</div>
         <div class="slider" id="slider">
+          <!-- ✅ 6 slides (use these file names) -->
           <div class="slide"><img src="./one-1.jpg" alt="1"><div class="slideCap">Our moment 💕</div></div>
           <div class="slide"><img src="./one-2.jpg" alt="2"><div class="slideCap">Always you ✨</div></div>
           <div class="slide"><img src="./one-3.jpg" alt="3"><div class="slideCap">Smiles forever 😊</div></div>
           <div class="slide"><img src="./one-4.jpg" alt="4"><div class="slideCap">My favorite person 💘</div></div>
+          <div class="slide"><img src="./one-5.jpg" alt="5"><div class="slideCap">Together 🤞</div></div>
+          <div class="slide"><img src="./one-6.jpg" alt="6"><div class="slideCap">My safe place 🫶🌙</div></div>
+          <div class="slide"><img src="./one-7.jpg" alt="4"><div class="slideCap">Forever… just us ♾️💖</div></div>
+          <div class="slide"><img src="./one-8.jpg" alt="5"><div class="slideCap">In your arms, I’m home 🤍🏡</div></div>
+          <div class="slide"><img src="./one-9.jpg" alt="6"><div class="slideCap">Forever ♾️</div></div>
         </div>
 
         <div class="pdfArea">
@@ -742,11 +895,11 @@
             <div class="pdfLabel">Please review your answers here 💌</div>
             <div class="pdfHint">Tap “Download PDF” to save your responses (Q&A will be inside the PDF).</div>
           </div>
-          <button class="btnPdf" id="pdfBtn">Download PDF 📄💖</button>
+          <button class="btnPdf" id="pdfBtn" type="button">Download PDF 📄💖</button>
         </div>
 
         <div class="restartArea">
-          <button class="btn btnRestart" id="restartBtn">Restart Game 🔁</button>
+          <button class="btn btnRestart" id="restartBtn" type="button">Restart Game 🔁</button>
         </div>
 
         <div class="printOnly" id="printOnly">
@@ -760,8 +913,15 @@
   <div class="toast" id="toast"></div>
 
 <script>
-  // ✅ SET YOUR OTP HERE (change this)
-  const SECRET_OTP = "2233";   
+  /* =========================
+     ✅ CONFIG
+  ========================== */
+  const SECRET_OTP = "2233"; // <-- change your OTP here
+  const MUSIC_DEFAULT_ON = true;
+
+  /* =========================
+     ✅ QUESTIONS
+  ========================== */
   const questions = [
     {
       id: "feelDay",
@@ -830,6 +990,9 @@
     }
   ];
 
+  /* =========================
+     ✅ ELEMENTS
+  ========================== */
   const startScreen = document.getElementById("startScreen");
   const quizScreen  = document.getElementById("quizScreen");
   const overlay     = document.getElementById("overlay");
@@ -858,17 +1021,30 @@
   const restartBtn = document.getElementById("restartBtn");
   const qaPrint = document.getElementById("qaPrint");
 
+  const yesBtn1 = document.getElementById("yesBtn1");
+  const yesBtn2 = document.getElementById("yesBtn2");
+
   const toast = document.getElementById("toast");
 
-  // ✅ OTP + music elements
+  // OTP + music
   const otpInput = document.getElementById("otpInput");
   const unlockBtn = document.getElementById("unlockBtn");
   const lockStatus = document.getElementById("lockStatus");
   const music = document.getElementById("bgMusic");
   const musicToggleBtn = document.getElementById("musicToggleBtn");
+  const moodBtn = document.getElementById("moodBtn");
+
+  // Typing
+  const typeNameEl = document.getElementById("typeName");
+
+  // FX layer
+  const fxLayer = document.getElementById("fxLayer");
 
   const state = { step: 0, answers: [], unlocked: false, musicOn: false };
 
+  /* =========================
+     ✅ HELPERS
+  ========================== */
   function showToast(msg){
     toast.textContent = msg;
     toast.style.display = "block";
@@ -891,45 +1067,97 @@
     badge.textContent = `Step ${Math.min(state.step+1, questions.length)} / ${questions.length}`;
     bar.style.width = ((state.step / questions.length) * 100) + "%";
   }
+  function setLockedUI(locked){
+    startYesBtn.disabled = locked;
+    startNoBtn.disabled  = locked;
+    lockStatus.textContent = locked ? "🔒 Locked — OTP required" : "🔓 Unlocked — ab toh start karo 😚💖";
+  }
 
-  // ✅ Music control (browsers allow play only after user gesture)
+  /* =========================
+     ✅ #1 Typing animation
+  ========================== */
+  const typingText = "Khushu";
+  let ti = 0;
+  function typeEffect(){
+    if(ti < typingText.length){
+      typeNameEl.textContent += typingText.charAt(ti);
+      ti++;
+      setTimeout(typeEffect, 120);
+    }
+  }
+
+  /* =========================
+     ✅ #2 Floating love notes
+  ========================== */
+  const loveNotes = ["I choose you 💖","Forever & Always ♾️","My safe place 🫶","You’re my home 🏡","Love you 😘","Only you ✨","Always us 💞"];
+  function startLoveNotes(){
+    setInterval(()=>{
+      const n = document.createElement("div");
+      n.className = "loveNote";
+      n.textContent = loveNotes[Math.floor(Math.random()*loveNotes.length)];
+      n.style.left = (10 + Math.random()*80) + "vw";
+      document.body.appendChild(n);
+      setTimeout(()=>n.remove(), 8200);
+    }, 2800);
+  }
+
+  /* =========================
+     ✅ #6 Mood toggle
+  ========================== */
+  moodBtn.addEventListener("click", ()=>{
+    document.body.classList.toggle("night");
+  });
+
+  /* =========================
+     ✅ Music controls
+  ========================== */
   async function setMusic(on){
     state.musicOn = on;
     if(on){
       try{
         music.volume = 0.55;
+        music.muted = false;
         await music.play();
         musicToggleBtn.textContent = "🔊 Music On";
-        showToast("Music on 🎶💖");
       }catch(e){
-        // autoplay blocked until gesture
-        showToast("Tap again to start music 🎶");
-        state.musicOn = false;
+        // ignore (will start on gesture)
         musicToggleBtn.textContent = "🔇 Music Off";
+        state.musicOn = false;
       }
     }else{
       music.pause();
       musicToggleBtn.textContent = "🔇 Music Off";
-      showToast("Music off 😌");
     }
   }
+
+  // Try muted autoplay (allowed), then first tap anywhere unmute+play
+  function attemptAutoplayMuted(){
+    music.volume = 0.55;
+    music.muted = true;
+    const p = music.play();
+    if(p && typeof p.catch === "function") p.catch(()=>{});
+  }
+  function enableSoundOnFirstTap(){
+    if(MUSIC_DEFAULT_ON){
+      music.muted = false;
+      music.volume = 0.55;
+      music.play().catch(()=>{});
+      state.musicOn = true;
+      musicToggleBtn.textContent = "🔊 Music On";
+    }
+  }
+  window.addEventListener("pointerdown", enableSoundOnFirstTap, { once: true });
+  window.addEventListener("touchstart", enableSoundOnFirstTap, { once: true, passive: true });
+  window.addEventListener("click", enableSoundOnFirstTap, { once: true });
 
   musicToggleBtn.addEventListener("click", ()=>{
     setMusic(!state.musicOn);
+    showToast(state.musicOn ? "Music on 🎶💖" : "Music off 😌");
   });
 
-  // ✅ Lock / Unlock
-  function setLockedUI(locked){
-    startYesBtn.disabled = locked;
-    startNoBtn.disabled  = locked;
-    if(locked){
-      lockStatus.textContent = "🔒 Locked — OTP required";
-    }else{
-      lockStatus.textContent = "🔓 Unlocked — ab toh start karo 😚💖";
-    }
-  }
-  setLockedUI(true);
-
+  /* =========================
+     ✅ OTP unlock
+  ========================== */
   function unlock(){
     const entered = (otpInput.value || "").trim();
     if(!entered){
@@ -939,24 +1167,29 @@
     if(entered === SECRET_OTP){
       state.unlocked = true;
       setLockedUI(false);
-      partyPop();
-      heartBurst(24);
       showToast("Unlocked! Ab start karo meri jaan 💖");
+      partyPop();
+      heartBurst(22);
 
-      // ✅ Start music automatically after successful OTP (user gesture already happened)
-      if(!state.musicOn) setMusic(true);
+      // start music after OTP (gesture)
+      if(MUSIC_DEFAULT_ON && !state.musicOn){
+        music.muted = false;
+        music.volume = 0.55;
+        music.play().catch(()=>{});
+        state.musicOn = true;
+        musicToggleBtn.textContent = "🔊 Music On";
+      }
       return;
     }
     showToast("Hehe… galat OTP 🙈 phir se try karo 😝");
     heartBurst(10);
   }
-
   unlockBtn.addEventListener("click", unlock);
-  otpInput.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter") unlock();
-  });
+  otpInput.addEventListener("keydown", (e)=>{ if(e.key === "Enter") unlock(); });
 
-  // Move button inside an arena
+  /* =========================
+     ✅ Buttons run away
+  ========================== */
   function randomPosInArena(btn, arena){
     const r = arena.getBoundingClientRect();
     const bw = btn.offsetWidth;
@@ -969,7 +1202,6 @@
     btn.style.right = "auto";
   }
 
-  // Start NO runs away (but not on very small screens)
   function dodgeStartNo(){
     if(!state.unlocked){
       showToast("Pehle OTP 😚 fir ‘Nahi’ bhi bhaagega 😝");
@@ -999,7 +1231,6 @@
     renderQuestion();
   });
 
-  // Skip runs away (but not on very small screens)
   function dodgeSkip(){
     if(window.innerWidth <= 520){
       showToast("Skip nahi babe 😚 Next karo 💖");
@@ -1013,6 +1244,9 @@
   skipBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); dodgeSkip(); }, {passive:false});
   skipBtn.addEventListener("click", (e)=>{ e.preventDefault(); dodgeSkip(); });
 
+  /* =========================
+     ✅ Quiz rendering
+  ========================== */
   function renderQuestion(){
     updateProgress();
     const q = questions[state.step];
@@ -1086,6 +1320,9 @@
     }
   });
 
+  /* =========================
+     ✅ Final overlay
+  ========================== */
   function openFinal(){
     const yourName = (yourNameInput.value || "Anu").trim() || "Anu";
     const herName  = (herNameInput.value  || "Khushu").trim() || "Khushu";
@@ -1100,8 +1337,9 @@
       qaPrint.appendChild(div);
     });
 
+    // ✅ message with #7 heartbeat on proposal line + end "I love you"
     finalMsg.innerHTML = `
-      <b>Happy Valentine’s Day, my baby ♥️💫</b><br><br>
+      <b>Happy Valentine’s Day, my baby ♥️💫🌹💖</b><br><br>
 
       Tum mere din ka sukoon ho, meri raat ka chaand ho… aur meri zindagi ka sabse pyaara sa “haan” ho 😚💗<br><br>
 
@@ -1110,7 +1348,9 @@
 
       Main tumhe har din choose karta hoon… aur aaj bhi, kal bhi, hamesha 💖♾️<br><br>
 
-      <b>Will you be my Valentine? 💍💋💖😘</b><br><br>
+      <span class="heartbeat"><b>Will you be my Valentine? 💍🌹💋💖😘</b></span><br><br>
+
+      <b>I love you ❤️</b><br><br>
 
       Forever yours 🫠💗♾️✨💕<br>
       — <b>${escapeHtml(yourName)}</b>
@@ -1128,16 +1368,106 @@
     setActive(startScreen);
     badge.textContent = "Start";
     bar.style.width = "0%";
+
+    // reset start buttons position
     startNoBtn.style.right = "16px";
     startNoBtn.style.left = "auto";
     startNoBtn.style.top = "36px";
+
+    // reset state
     otpInput.value = "";
     state.unlocked = false;
     setLockedUI(true);
+
     showToast("Restarted 😄");
   });
 
-  // Effects
+  /* =========================
+     ✅ YES effects: fireworks + confetti + hearts rain
+  ========================== */
+  function confettiBurst(count=170){
+    const w = window.innerWidth;
+    for(let i=0;i<count;i++){
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = (Math.random()*w) + "px";
+      c.style.background = `hsl(${Math.random()*360}, 92%, 65%)`;
+      c.style.width = (6 + Math.random()*6) + "px";
+      c.style.height = (10 + Math.random()*14) + "px";
+      const dx = (Math.random()-0.5) * 320;
+      c.style.setProperty("--dx", dx + "px");
+      const dur = 1000 + Math.random()*1400;
+      c.style.animationDuration = dur + "ms";
+      fxLayer.appendChild(c);
+      setTimeout(()=>c.remove(), dur + 120);
+    }
+  }
+
+  function heartRain(count=85){
+    const w = window.innerWidth;
+    for(let i=0;i<count;i++){
+      const h = document.createElement("div");
+      h.className = "heartFx";
+      h.textContent = Math.random() > 0.5 ? "💖" : "💘";
+      h.style.left = (Math.random()*w) + "px";
+      h.style.fontSize = (14 + Math.random()*18) + "px";
+      const dx = (Math.random()-0.5) * 260;
+      h.style.setProperty("--dx", dx + "px");
+      const dur = 1400 + Math.random()*1700;
+      h.style.animationDuration = dur + "ms";
+      fxLayer.appendChild(h);
+      setTimeout(()=>h.remove(), dur + 120);
+    }
+  }
+
+  function fireworksShow(rounds=4){
+    let fired = 0;
+    const t = setInterval(()=>{
+      fireworkAt(
+        (Math.random()*0.8 + 0.1) * window.innerWidth,
+        (Math.random()*0.45 + 0.18) * window.innerHeight
+      );
+      fired++;
+      if(fired >= rounds*3) clearInterval(t);
+    }, 280);
+  }
+
+  function fireworkAt(x,y){
+    const particles = 32;
+    for(let i=0;i<particles;i++){
+      const p = document.createElement("div");
+      p.className = "firework";
+      p.style.left = x + "px";
+      p.style.top  = y + "px";
+      p.style.background = `hsl(${Math.random()*360}, 92%, 65%)`;
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 70 + Math.random() * 160;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+
+      p.style.setProperty("--x", dx + "px");
+      p.style.setProperty("--y", dy + "px");
+
+      fxLayer.appendChild(p);
+      setTimeout(()=>p.remove(), 980);
+    }
+  }
+
+  function onYes(){
+    confettiBurst(190);
+    heartRain(95);
+    fireworksShow(4);
+    partyPop();
+    showToast("Yayyy! She said YES 💍💖");
+  }
+
+  yesBtn1.addEventListener("click", onYes);
+  yesBtn2.addEventListener("click", onYes);
+
+  /* =========================
+     ✅ Existing fun effects
+  ========================== */
   function partyPop(){
     const count = 60;
     for(let i=0;i<count;i++){
@@ -1196,10 +1526,23 @@
     }
   }
 
-  // Init
+  /* =========================
+     ✅ INIT
+  ========================== */
   setActive(startScreen);
   bar.style.width = "0%";
   badge.textContent = "Start";
+  setLockedUI(true);
+
+  // start typing + floating notes + attempt muted autoplay
+  typeEffect();
+  startLoveNotes();
+  attemptAutoplayMuted();
+
+  // keep "no" button initial position nice
+  startNoBtn.style.right = "16px";
+  startNoBtn.style.left = "auto";
+  startNoBtn.style.top = "36px";
 </script>
 </body>
 </html>
