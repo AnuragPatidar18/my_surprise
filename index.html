@@ -7,11 +7,9 @@
 
   <style>
     :root{
-      /* ✅ Background image (set your image path/url) */
       --bg-img: url("./bg-new-two.jpg");
 
       --glass: rgba(255,255,255,.12);
-      --glass2: rgba(255,255,255,.07);
       --border: rgba(255,255,255,.18);
 
       --txt:#fff;
@@ -48,13 +46,10 @@
       place-items:center;
       padding: 14px;
     }
-
-    /* ✅ Fix mobile background jank */
     @media (max-width: 860px){
       body{ background-attachment: scroll; }
     }
 
-    /* subtle floating sparkles */
     .sparkle-bg{
       position: fixed;
       inset: 0;
@@ -77,6 +72,7 @@
     }
 
     .wrap{ width:min(980px, 100%); position:relative; z-index:1; }
+
     .card{
       width:100%;
       background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.05));
@@ -139,7 +135,6 @@
     .screen{ display:none; }
     .screen.active{ display:block; }
 
-    /* START screen layout */
     .hero{
       display:grid;
       grid-template-columns: 1.15fr .85fr;
@@ -198,7 +193,7 @@
       color:#fff;
       touch-action: manipulation;
       user-select:none;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, opacity .2s ease;
       display:inline-flex;
       align-items:center;
       gap:8px;
@@ -215,11 +210,17 @@
       border:1px solid rgba(255,255,255,.18);
       color: rgba(255,255,255,.92);
     }
+
+    .btn[disabled]{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none !important;
+    }
+
     .btnAbs{ position:absolute; }
     .startYes{ left: 16px; top: 36px; }
     .startNo{ right: 16px; top: 36px; }
 
-    /* ✅ Fix the absolute buttons issue on small screens */
     @media (max-width: 520px){
       .btnAbs{ position: static !important; }
       .arena{
@@ -271,7 +272,6 @@
       line-height:1.5;
     }
 
-    /* ✅ Images always responsive */
     .side-love img{
       width: 100%;
       max-width: 320px;
@@ -281,7 +281,42 @@
       border-radius: 16px;
     }
 
-    /* QUIZ screen */
+    /* ✅ OTP Lock Box */
+    .lockBox{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+    }
+    .lockTitle{
+      font-weight: 900;
+      letter-spacing:.2px;
+      margin-bottom: 6px;
+    }
+    .lockRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+    .lockRow input{
+      flex: 1 1 180px;
+    }
+    .okTag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.78);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.12);
+    }
+
+    /* QUIZ */
     .qBox{
       border:1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.14);
@@ -300,7 +335,6 @@
       line-height:1.5;
     }
 
-    /* Options */
     .options{
       display:grid;
       gap:10px;
@@ -379,7 +413,6 @@
       align-items:center;
     }
 
-    /* Skip button that runs away */
     .skipArena{
       position: relative;
       height: 64px;
@@ -508,17 +541,9 @@
       align-items:center;
       justify-content:space-between;
     }
-    .pdfLabel{
-      font-weight:900;
-      font-size: 13.5px;
-      color: rgba(255,255,255,.92);
-    }
-    .pdfHint{
-      font-size: 12.5px;
-      color: rgba(255,255,255,.72);
-      margin-top:4px;
-      line-height:1.45;
-    }
+    .pdfLabel{ font-weight:900; font-size: 13.5px; color: rgba(255,255,255,.92); }
+    .pdfHint{ font-size: 12.5px; color: rgba(255,255,255,.72); margin-top:4px; line-height:1.45; }
+
     .btnPdf{
       border:0;
       padding:12px 16px;
@@ -542,7 +567,7 @@
       border:1px solid rgba(255,255,255,.18);
     }
 
-    /* Print-only Q&A (hidden on screen) */
+    /* Print-only Q&A */
     .printOnly{
       display:none;
       margin-top: 14px;
@@ -559,7 +584,6 @@
       border-radius: 12px;
     }
 
-    /* Print rules */
     @media print{
       body{ background:#fff !important; color:#000 !important; display:block !important; padding:0 !important; }
       .sparkle-bg{display:none !important}
@@ -599,6 +623,9 @@
 <body>
   <div class="sparkle-bg"></div>
 
+  <!-- ✅ MUSIC (Put your song file in same folder: song.mp3) -->
+  <audio id="bgMusic" src="./song.mp3" preload="auto" loop></audio>
+
   <div class="wrap">
     <div class="card">
       <div class="pad">
@@ -617,6 +644,25 @@
           <div class="hero">
             <div class="panel">
               <p class="bigTitle">Khushu <span aria-hidden="true">❤️</span></p>
+
+              <!-- ✅ OTP PASSWORD LOCK -->
+              <div class="lockBox">
+                <div class="lockTitle">Madam jiii 😚 OTP bta dijiye naaaa… tabhi game start hoga 💌</div>
+                <div style="color:rgba(255,255,255,.78); font-size:13px; line-height:1.5;">
+                  (Haan haan… thoda drama toh banta hai 😝✨)
+                </div>
+
+                <div class="lockRow">
+                  <input id="otpInput" inputmode="numeric" placeholder="Enter OTP (4 digit)" maxlength="10" />
+                  <button class="btn btnPrimary" id="unlockBtn">Unlock 💖</button>
+                </div>
+
+                <div class="lockRow" style="justify-content:space-between;">
+                  <span class="okTag" id="lockStatus">🔒 Locked — OTP required</span>
+                  <button class="btn btnAlt" id="musicToggleBtn" type="button">🔇 Music Off</button>
+                </div>
+              </div>
+
               <p class="pet">
                 Oyyy meri Rasmalai 😚<br/>
                 Aaj ek chhota sa romantic game… aur end me ek surprise 💌✨<br/><br/>
@@ -624,11 +670,11 @@
               </p>
 
               <div class="arena" id="startArena">
-                <button class="btn btnPrimary btnAbs startYes" id="startYesBtn">Haan, bohot 😍</button>
-                <button class="btn btnAlt btnAbs startNo" id="startNoBtn">Nahi 🙈</button>
+                <button class="btn btnPrimary btnAbs startYes" id="startYesBtn" disabled>Haan, bohot 😍</button>
+                <button class="btn btnAlt btnAbs startNo" id="startNoBtn" disabled>Nahi 🙈</button>
               </div>
 
-              <div class="hintBox">💌 Bas ek rule: “Nahi” thoda sharmaata hai… pakad me nahi aata 😝</div>
+              <div class="hintBox">💌 Rule: OTP ke bina “Start” ka jadoo nahi chalega 😌💖</div>
             </div>
 
             <div class="panel soft">
@@ -700,7 +746,7 @@
         </div>
 
         <div class="restartArea">
-          <button class="btn btnRestart btnRestart" id="restartBtn">Restart Game 🔁</button>
+          <button class="btn btnRestart" id="restartBtn">Restart Game 🔁</button>
         </div>
 
         <div class="printOnly" id="printOnly">
@@ -714,6 +760,8 @@
   <div class="toast" id="toast"></div>
 
 <script>
+  // ✅ SET YOUR OTP HERE (change this)
+  const SECRET_OTP = "2233";   
   const questions = [
     {
       id: "feelDay",
@@ -812,13 +860,20 @@
 
   const toast = document.getElementById("toast");
 
-  const state = { step: 0, answers: [] };
+  // ✅ OTP + music elements
+  const otpInput = document.getElementById("otpInput");
+  const unlockBtn = document.getElementById("unlockBtn");
+  const lockStatus = document.getElementById("lockStatus");
+  const music = document.getElementById("bgMusic");
+  const musicToggleBtn = document.getElementById("musicToggleBtn");
+
+  const state = { step: 0, answers: [], unlocked: false, musicOn: false };
 
   function showToast(msg){
     toast.textContent = msg;
     toast.style.display = "block";
     clearTimeout(showToast._t);
-    showToast._t = setTimeout(()=> toast.style.display = "none", 1100);
+    showToast._t = setTimeout(()=> toast.style.display = "none", 1300);
   }
   function escapeHtml(str){
     return String(str)
@@ -837,6 +892,70 @@
     bar.style.width = ((state.step / questions.length) * 100) + "%";
   }
 
+  // ✅ Music control (browsers allow play only after user gesture)
+  async function setMusic(on){
+    state.musicOn = on;
+    if(on){
+      try{
+        music.volume = 0.55;
+        await music.play();
+        musicToggleBtn.textContent = "🔊 Music On";
+        showToast("Music on 🎶💖");
+      }catch(e){
+        // autoplay blocked until gesture
+        showToast("Tap again to start music 🎶");
+        state.musicOn = false;
+        musicToggleBtn.textContent = "🔇 Music Off";
+      }
+    }else{
+      music.pause();
+      musicToggleBtn.textContent = "🔇 Music Off";
+      showToast("Music off 😌");
+    }
+  }
+
+  musicToggleBtn.addEventListener("click", ()=>{
+    setMusic(!state.musicOn);
+  });
+
+  // ✅ Lock / Unlock
+  function setLockedUI(locked){
+    startYesBtn.disabled = locked;
+    startNoBtn.disabled  = locked;
+    if(locked){
+      lockStatus.textContent = "🔒 Locked — OTP required";
+    }else{
+      lockStatus.textContent = "🔓 Unlocked — ab toh start karo 😚💖";
+    }
+  }
+  setLockedUI(true);
+
+  function unlock(){
+    const entered = (otpInput.value || "").trim();
+    if(!entered){
+      showToast("Madam jiii OTP toh dijiye 😚");
+      return;
+    }
+    if(entered === SECRET_OTP){
+      state.unlocked = true;
+      setLockedUI(false);
+      partyPop();
+      heartBurst(24);
+      showToast("Unlocked! Ab start karo meri jaan 💖");
+
+      // ✅ Start music automatically after successful OTP (user gesture already happened)
+      if(!state.musicOn) setMusic(true);
+      return;
+    }
+    showToast("Hehe… galat OTP 🙈 phir se try karo 😝");
+    heartBurst(10);
+  }
+
+  unlockBtn.addEventListener("click", unlock);
+  otpInput.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter") unlock();
+  });
+
   // Move button inside an arena
   function randomPosInArena(btn, arena){
     const r = arena.getBoundingClientRect();
@@ -852,6 +971,10 @@
 
   // Start NO runs away (but not on very small screens)
   function dodgeStartNo(){
+    if(!state.unlocked){
+      showToast("Pehle OTP 😚 fir ‘Nahi’ bhi bhaagega 😝");
+      return;
+    }
     if(window.innerWidth <= 520){
       showToast("Oyy sharma rahi ho? 😚 Haan dabao na 💖");
       return;
@@ -865,6 +988,10 @@
   startNoBtn.addEventListener("click", (e)=>{ e.preventDefault(); dodgeStartNo(); });
 
   startYesBtn.addEventListener("click", ()=>{
+    if(!state.unlocked){
+      showToast("Madam jiii OTP ke bina start nahi 😚🔒");
+      return;
+    }
     partyPop();
     setActive(quizScreen);
     state.step = 0;
@@ -974,22 +1101,16 @@
     });
 
     finalMsg.innerHTML = `
-      <b>Happy Valentine’s Day, my baby ♥️💫🌹💖</b><br><br>
+      <b>Happy Valentine’s Day, my baby ♥️💫</b><br><br>
 
-      I wish that you always stay with me 🥰🤞💞 and that this new journey of our life together 💕🚶‍♂️🚶‍♀️✨
-      moves ahead in the most beautiful way, just like we dream 🌈💫🌸<br><br>
+      Tum mere din ka sukoon ho, meri raat ka chaand ho… aur meri zindagi ka sabse pyaara sa “haan” ho 😚💗<br><br>
 
-      In such a short time, we’ve already created so many special couple moments 🫶🥹💋 — moments full of smiles 😊💕,
-      blushes 😳🌷, tight hugs 🤗💞, and heartbeats that feel meant only for us 💓💗✨<br><br>
+      Itne kam time mein bhi humne itne saare cute moments bana liye 🫶🥹 — smiles 😊, blush 😳, hugs 🤗,
+      aur woh heartbeats… jo sirf tumhare liye fast ho jaati hain 💓✨<br><br>
 
-      I truly feel you are mine ❣️🥰 and I’m so grateful for you every single day 🙏💖🌹<br><br>
+      Main tumhe har din choose karta hoon… aur aaj bhi, kal bhi, hamesha 💖♾️<br><br>
 
-      And honestly… we are the best looking couple ever 😌💘 and you are my first and last love ❤️♾️<br><br>
-
-      Today, for the first time, with all my pride 😌💘, love ❤️🔥, and emotions overflowing from my heart 🥹💓🌊,
-      I want to ask you something very special 💌🎀✨…<br><br>
-
-      <b>Will you be my Valentine? 💍🌹💋💖😘</b><br><br>
+      <b>Will you be my Valentine? 💍💋💖😘</b><br><br>
 
       Forever yours 🫠💗♾️✨💕<br>
       — <b>${escapeHtml(yourName)}</b>
@@ -1010,6 +1131,9 @@
     startNoBtn.style.right = "16px";
     startNoBtn.style.left = "auto";
     startNoBtn.style.top = "36px";
+    otpInput.value = "";
+    state.unlocked = false;
+    setLockedUI(true);
     showToast("Restarted 😄");
   });
 
