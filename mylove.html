@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Anu ❤️ Khushu — Valentine Surprise</title>
+
+  <style>
+    :root{
+      /* ✅ Background image (set your image path/url) */
+      --bg-img: url("./bg-new-two.jpg");
+
+      --glass: rgba(255,255,255,.12);
+      --glass2: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.18);
+
+      --txt:#fff;
+      --muted: rgba(255,255,255,.78);
+
+      --pink:#ff3d7f;
+      --pink2:#ff6aa2;
+      --teal:#00c2a8;
+
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+      --r: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body { width:100%; }
+
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      min-height:100vh;
+      color:var(--txt);
+      overflow-x:hidden;
+
+      background-image:
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,61,127,.18), transparent 60%),
+        radial-gradient(900px 600px at 80% 20%, rgba(255,120,180,.14), transparent 55%),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.70)),
+        var(--bg-img);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+
+      display:grid;
+      place-items:center;
+      padding: 14px;
+    }
+
+    /* ✅ Fix mobile background jank */
+    @media (max-width: 860px){
+      body{ background-attachment: scroll; }
+    }
+
+    /* subtle floating sparkles */
+    .sparkle-bg{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      opacity:.16;
+      filter: blur(.2px);
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,61,127,.6) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 20%, rgba(255,106,162,.6) 0 2px, transparent 3px),
+        radial-gradient(circle at 40% 70%, rgba(255,180,210,.5) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 75%, rgba(255,61,127,.5) 0 2px, transparent 3px);
+      background-size: 220px 220px, 260px 260px, 300px 300px, 240px 240px;
+      animation: floatBg 12s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes floatBg{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(-16px)}
+      100%{transform:translateY(0)}
+    }
+
+    .wrap{ width:min(980px, 100%); position:relative; z-index:1; }
+    .card{
+      width:100%;
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.05));
+      border:1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      background-color: #8b0000c4;
+    }
+    .pad{ padding: clamp(14px, 3.5vw, 18px); }
+
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(22px, 4.4vw, 42px);
+      line-height:1.05;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size: 14.5px;
+      max-width: 65ch;
+    }
+    .badge{
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size: 12.5px;
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    .progress{
+      height:10px;
+      background: rgba(255,255,255,.14);
+      border-radius:999px;
+      overflow:hidden;
+      margin:14px 0 16px;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--pink), var(--pink2));
+      border-radius:999px;
+      transition: width .35s ease;
+    }
+
+    .screen{ display:none; }
+    .screen.active{ display:block; }
+
+    /* START screen layout */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .hero{ grid-template-columns:1fr; }
+      .panel{ padding: 14px; }
+    }
+
+    .panel{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .panel.soft{
+      background: rgba(255,255,255,.06);
+    }
+
+    .bigTitle{
+      margin:0;
+      font-size: clamp(22px, 5vw, 44px);
+      line-height:1.05;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .pet{
+      margin:10px 0 0;
+      color: rgba(255,255,255,.82);
+      line-height:1.6;
+      font-size: 14.6px;
+    }
+
+    .arena{
+      position: relative;
+      margin-top: 16px;
+      height: auto;
+      min-height: 160px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,.24);
+      background: rgba(0,0,0,.10);
+      overflow:hidden;
+    }
+
+    .btn{
+      border:0;
+      padding:12px 16px;
+      border-radius: 14px;
+      font-weight:900;
+      cursor:pointer;
+      color:#fff;
+      touch-action: manipulation;
+      user-select:none;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .btn:active{ transform: scale(.99); }
+
+    .btnPrimary{
+      background: linear-gradient(90deg, var(--pink), var(--pink2));
+      box-shadow: 0 14px 34px rgba(255,61,127,.20);
+    }
+    .btnAlt{
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.92);
+    }
+    .btnAbs{ position:absolute; }
+    .startYes{ left: 16px; top: 36px; }
+    .startNo{ right: 16px; top: 36px; }
+
+    /* ✅ Fix the absolute buttons issue on small screens */
+    @media (max-width: 520px){
+      .btnAbs{ position: static !important; }
+      .arena{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        min-height:auto;
+      }
+      .startYes, .startNo{
+        left:auto !important;
+        right:auto !important;
+        top:auto !important;
+        width:100%;
+        justify-content:center;
+      }
+    }
+
+    .hintBox{
+      margin-top:12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height:1.5;
+    }
+
+    .names{
+      display:grid;
+      gap:10px;
+      margin-top: 12px;
+    }
+    input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
+      color:#fff;
+      outline:none;
+    }
+    input::placeholder{ color: rgba(255,255,255,.55); }
+
+    .small{
+      font-size: 12.5px;
+      color: rgba(255,255,255,.70);
+      margin-top: 10px;
+      line-height:1.5;
+    }
+
+    /* ✅ Images always responsive */
+    .side-love img{
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      display:block;
+      margin: 10px auto 0;
+      border-radius: 16px;
+    }
+
+    /* QUIZ screen */
+    .qBox{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.14);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .qText{
+      margin:0;
+      font-size: clamp(16px, 4vw, 22px);
+      line-height:1.25;
+    }
+    .mini{
+      margin:10px 0 0;
+      color: rgba(255,255,255,.74);
+      font-size: 13px;
+      line-height:1.5;
+    }
+
+    /* Options */
+    .options{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+    .opt{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      width:100%;
+    }
+    .opt:hover{ background: rgba(255,255,255,.09); }
+
+    .opt input{
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      accent-color: var(--pink);
+    }
+    .opt span{
+      flex: 1 1 auto;
+      text-align:left;
+      line-height:1.35;
+      font-size: 14.5px;
+      color: rgba(255,255,255,.92);
+      word-break: break-word;
+    }
+
+    .rangeWrap{
+      margin-top:12px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+    }
+    input[type="range"]{ width:100%; }
+    .rangeMeta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+    }
+    .pill{
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.12);
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      margin-top: 14px;
+    }
+    .chip{
+      color: rgba(255,255,255,.76);
+      font-size: 12.5px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.10);
+      padding:8px 12px;
+      border-radius:999px;
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    /* Skip button that runs away */
+    .skipArena{
+      position: relative;
+      height: 64px;
+      margin-top: 12px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.10);
+      overflow:hidden;
+    }
+    .skipBtn{
+      position:absolute;
+      right: 14px;
+      top: 12px;
+      padding:10px 14px;
+      font-size: 13px;
+      border-radius: 12px;
+    }
+
+    /* FINAL overlay */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      overflow:auto;
+      z-index:1000;
+      background: rgba(0,0,0,.74);
+      backdrop-filter: blur(10px);
+      padding: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .finalCard{
+      width:min(980px, 100%);
+      margin: 0 auto;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      border:1px solid rgba(255,255,255,.18);
+      border-radius: 24px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.65);
+      overflow:hidden;
+    }
+    .finalHead{
+      padding: 16px 16px 10px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+    .finalHead h2{
+      margin:0;
+      font-size: clamp(20px, 4vw, 32px);
+      line-height:1.15;
+    }
+    .finalBody{ padding: 0 16px 18px; }
+    @media (max-width: 520px){
+      .finalBody{ padding: 0 14px 16px; }
+    }
+
+    .messageBox{
+      padding: 14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.90);
+      line-height: 1.7;
+      font-size: 15.2px;
+    }
+    @media (max-width: 520px){
+      .messageBox{ font-size: 14.7px; }
+    }
+
+    .galleryTitle{
+      margin:14px 0 8px;
+      font-size: 14px;
+      color: rgba(255,255,255,.78);
+    }
+    .slider{
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .slide{
+      flex: 0 0 auto;
+      width: min(380px, 86vw);
+      aspect-ratio: 4/3;
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      scroll-snap-align: start;
+      position:relative;
+    }
+    @media (max-width: 520px){
+      .slide{ width: 90vw; }
+    }
+    .slide img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+    }
+    .slideCap{
+      position:absolute;
+      left:10px; right:10px; bottom:10px;
+      padding:8px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.92);
+      font-size: 12.5px;
+      backdrop-filter: blur(8px);
+    }
+
+    .pdfArea{
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .pdfLabel{
+      font-weight:900;
+      font-size: 13.5px;
+      color: rgba(255,255,255,.92);
+    }
+    .pdfHint{
+      font-size: 12.5px;
+      color: rgba(255,255,255,.72);
+      margin-top:4px;
+      line-height:1.45;
+    }
+    .btnPdf{
+      border:0;
+      padding:12px 16px;
+      border-radius: 14px;
+      font-weight:900;
+      cursor:pointer;
+      background: linear-gradient(90deg, var(--teal), rgba(120,255,220,1));
+      color:#05211c;
+      white-space:nowrap;
+    }
+
+    .restartArea{
+      margin-top: 12px;
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btnRestart{
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    /* Print-only Q&A (hidden on screen) */
+    .printOnly{
+      display:none;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      border:1px solid #ddd;
+      background:#fff;
+      color:#000;
+    }
+    .qa{
+      margin:10px 0 0;
+      padding:10px;
+      border:1px solid #eee;
+      border-radius: 12px;
+    }
+
+    /* Print rules */
+    @media print{
+      body{ background:#fff !important; color:#000 !important; display:block !important; padding:0 !important; }
+      .sparkle-bg{display:none !important}
+      .wrap{display:none !important}
+      .overlay{ position:static !important; display:block !important; background:#fff !important; padding:0 !important; }
+      .finalCard{ box-shadow:none !important; border:0 !important; border-radius:0 !important; }
+      .btnPdf, .btnRestart {display:none !important}
+      .messageBox{ background:#fff !important; color:#000 !important; border:1px solid #eee !important }
+      .slider{ overflow:visible !important; flex-wrap:wrap !important }
+      .slide{ width:48% !important; }
+      .slideCap{ background:rgba(0,0,0,.06) !important; color:#000 !important; border:1px solid #eee !important }
+      .printOnly{ display:block !important }
+    }
+
+    /* toast */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.18);
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.92);
+      font-size: 13px;
+      display:none;
+      z-index: 2000;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      max-width: 92vw;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sparkle-bg"></div>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="pad">
+        <div class="top">
+          <div>
+            <h1 id="title">Happy Valentine Day My Love ❤️</h1>
+            <p class="sub" id="subtitle">So my Rasmalai 😚, Madam ji 🙈… chalo aapko ek special surprise hai aapke liye ✨</p>
+          </div>
+          <div class="badge" id="badge">Start</div>
+        </div>
+
+        <div class="progress"><div class="bar" id="bar"></div></div>
+
+        <!-- START SCREEN -->
+        <div class="screen active" id="startScreen">
+          <div class="hero">
+            <div class="panel">
+              <p class="bigTitle">Khushu <span aria-hidden="true">❤️</span></p>
+              <p class="pet">
+                Oyyy meri Rasmalai 😚<br/>
+                Aaj ek chhota sa romantic game… aur end me ek surprise 💌✨<br/><br/>
+                <b>Are you excited?</b> 😍
+              </p>
+
+              <div class="arena" id="startArena">
+                <button class="btn btnPrimary btnAbs startYes" id="startYesBtn">Haan, bohot 😍</button>
+                <button class="btn btnAlt btnAbs startNo" id="startNoBtn">Nahi 🙈</button>
+              </div>
+
+              <div class="hintBox">💌 Bas ek rule: “Nahi” thoda sharmaata hai… pakad me nahi aata 😝</div>
+            </div>
+
+            <div class="panel soft">
+              <div class="badge" style="display:inline-flex; gap:8px; align-items:center;">💞 Anu ❤️ Khushu</div>
+              <div class="names">
+                <input id="yourName" value="Anu" placeholder="Your name">
+                <input id="herName" value="Khushu" placeholder="Her name">
+              </div>
+              <div class="small">
+                (Names already set hain 😉 but can change it babe..)
+                <br/>
+              </div>
+              <div class="side-love">
+                <img src="./new-gif.gif" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div class="screen" id="quizScreen">
+          <div class="qBox">
+            <p class="qText" id="qText"></p>
+            <p class="mini" id="miniText"></p>
+            <div class="options" id="options"></div>
+
+            <div class="skipArena" id="skipArena">
+              <button class="btn btnAlt skipBtn" id="skipBtn">Skip 🙈</button>
+            </div>
+          </div>
+
+          <div class="actions">
+            <span class="chip" id="chip">💖 Oyyy meri Rasmalai 😚</span>
+            <button class="btn btnPrimary" id="nextBtn">Next 💖</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL OVERLAY -->
+  <div class="overlay" id="overlay">
+    <div class="finalCard">
+      <div class="finalHead">
+        <div>
+          <h2 id="finalTitle">Happy Valentine’s Day 💖</h2>
+          <div style="color:rgba(255,255,255,.72); font-size:13px; margin-top:6px;">(Anu ❤️ Khushu)</div>
+        </div>
+      </div>
+
+      <div class="finalBody">
+        <div class="messageBox" id="finalMsg"></div>
+
+        <div class="galleryTitle">✨ A little surprise for you…</div>
+        <div class="slider" id="slider">
+          <div class="slide"><img src="./one-1.jpg" alt="1"><div class="slideCap">Our moment 💕</div></div>
+          <div class="slide"><img src="./one-2.jpg" alt="2"><div class="slideCap">Always you ✨</div></div>
+          <div class="slide"><img src="./one-3.jpg" alt="3"><div class="slideCap">Smiles forever 😊</div></div>
+          <div class="slide"><img src="./one-4.jpg" alt="4"><div class="slideCap">My favorite person 💘</div></div>
+        </div>
+
+        <div class="pdfArea">
+          <div>
+            <div class="pdfLabel">Please review your answers here 💌</div>
+            <div class="pdfHint">Tap “Download PDF” to save your responses (Q&A will be inside the PDF).</div>
+          </div>
+          <button class="btnPdf" id="pdfBtn">Download PDF 📄💖</button>
+        </div>
+
+        <div class="restartArea">
+          <button class="btn btnRestart btnRestart" id="restartBtn">Restart Game 🔁</button>
+        </div>
+
+        <div class="printOnly" id="printOnly">
+          <h3 style="margin:0 0 8px;">Your Answers (Q&A)</h3>
+          <div id="qaPrint"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const questions = [
+    {
+      id: "feelDay",
+      q: "Woh kaunsa din tha jab tumhe pehli baar feel hua ki tumhare dil mein bhi mere jaisa hi pyaar aur pagalpan aa gaya hai? 🫶💖",
+      type: "radio",
+      options: ["Ralamandal trip", "Mela", "Lotus Valley", "Chai-leela", "1 Jan"],
+      mini: "Bas ek option choose karo meri jaan 😚"
+    },
+    {
+      id: "favMoment",
+      q: "Mere saath tumhara sabse zyada romantic aur favorite moment kaunsa raha? 😳🌹",
+      type: "radio",
+      options: ["Baarish me handholding", "Romantic mela date", "Lotus Valley date", "Chokhi Dhani date"],
+      mini: "Dil se choose karna ❤️"
+    },
+    {
+      id: "chooseMe",
+      q: "Chahe fight ho ya silence… kya tum har baar mujhe hi choose karogi, bina kahe? 🥺🫶",
+      type: "radio",
+      options: ["Hamesha ❤️", "Obviously tumhe hi", "Kabhi chhodungi nahi", "Sirf tum"],
+      mini: "Sach sach bolna 😌💖"
+    },
+    {
+      id: "food",
+      q: "Agar tumhe tumhari favourite food aur main… dono ek saath mil jaayein, toh pehle kya choose karogi? 😏💞",
+      type: "radio",
+      options: ["Fav food 😋", "Tum 🥹💖", "Dono 😝", "Pehle tum phir food"],
+      mini: "Hint: Mere paas already sahi answer hai 😌💖",
+      mustBe: "Tum 🥹💖"
+    },
+    {
+      id: "unspokeIssue",
+      q: "Kabhi kabhi jo baatein hum bol nahi paate… kya tumhe lagta hai unse humare beech misunderstanding aa sakti hai? 🥺",
+      type: "range",
+      min: 0,
+      max: 100,
+      mini: "Slider set karo (0% = bilkul nahi, 100% = haan)"
+    },
+    {
+      id: "madeForEach",
+      q: "Kya tumhe bhi lagta hai… hum dono sach mein ek dusre ke liye hi bane hain? 🫶✨💗",
+      type: "radio",
+      options: ["Bilkul ❤️", "100%", "Yes, always", "Of course"],
+      mini: "Oyy meri Rasmalai 😚"
+    },
+    {
+      id: "oldAge",
+      q: "Agar main buddha ho jaaun… tab bhi kya tum mera haath pakadke waise hi chalogi, jaise aaj? 👵👴💖",
+      type: "radio",
+      options: ["Hamesha", "Till last breath", "Obviously", "Yes, forever"],
+      mini: "Forever vibes ♾️"
+    },
+    {
+      id: "importantPart",
+      q: "Jo bhi ho jaaye… kya tum meri story ka sabse pyaara aur sabse important part ban ke rahogi? 📖💘",
+      type: "radio",
+      options: ["Haan", "Main hi hoon", "Always", "Forever"],
+      mini: "Main bhi hamesha tumhara 🫶"
+    },
+    {
+      id: "future",
+      q: "Last honest one… kya tum apna future mere saath imagine kar sakti ho? 🥺✨💍",
+      type: "radio",
+      options: ["Haan ❤️", "Bilkul", "Sirf tumhare saath", "Yes, always"],
+      mini: "Last one… promise 😭💖"
+    }
+  ];
+
+  const startScreen = document.getElementById("startScreen");
+  const quizScreen  = document.getElementById("quizScreen");
+  const overlay     = document.getElementById("overlay");
+
+  const badge = document.getElementById("badge");
+  const bar = document.getElementById("bar");
+
+  const startYesBtn = document.getElementById("startYesBtn");
+  const startNoBtn  = document.getElementById("startNoBtn");
+  const startArena  = document.getElementById("startArena");
+
+  const qText = document.getElementById("qText");
+  const miniText = document.getElementById("miniText");
+  const optionsDiv = document.getElementById("options");
+  const nextBtn = document.getElementById("nextBtn");
+
+  const skipArena = document.getElementById("skipArena");
+  const skipBtn = document.getElementById("skipBtn");
+
+  const yourNameInput = document.getElementById("yourName");
+  const herNameInput  = document.getElementById("herName");
+
+  const finalTitle = document.getElementById("finalTitle");
+  const finalMsg = document.getElementById("finalMsg");
+  const pdfBtn = document.getElementById("pdfBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const qaPrint = document.getElementById("qaPrint");
+
+  const toast = document.getElementById("toast");
+
+  const state = { step: 0, answers: [] };
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.style.display = "block";
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toast.style.display = "none", 1100);
+  }
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+  function setActive(screen){
+    [startScreen, quizScreen].forEach(s=>s.classList.remove("active"));
+    screen.classList.add("active");
+  }
+  function updateProgress(){
+    badge.textContent = `Step ${Math.min(state.step+1, questions.length)} / ${questions.length}`;
+    bar.style.width = ((state.step / questions.length) * 100) + "%";
+  }
+
+  // Move button inside an arena
+  function randomPosInArena(btn, arena){
+    const r = arena.getBoundingClientRect();
+    const bw = btn.offsetWidth;
+    const bh = btn.offsetHeight;
+    const pad = 10;
+    const x = Math.random() * (r.width - bw - pad*2) + pad;
+    const y = Math.random() * (r.height - bh - pad*2) + pad;
+    btn.style.left = x + "px";
+    btn.style.top  = y + "px";
+    btn.style.right = "auto";
+  }
+
+  // Start NO runs away (but not on very small screens)
+  function dodgeStartNo(){
+    if(window.innerWidth <= 520){
+      showToast("Oyy sharma rahi ho? 😚 Haan dabao na 💖");
+      return;
+    }
+    showToast("Hehe… ‘Nahi’ pakad me nahi aata 😝");
+    randomPosInArena(startNoBtn, startArena);
+    heartBurst(14);
+  }
+  startNoBtn.addEventListener("mouseenter", dodgeStartNo);
+  startNoBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); dodgeStartNo(); }, {passive:false});
+  startNoBtn.addEventListener("click", (e)=>{ e.preventDefault(); dodgeStartNo(); });
+
+  startYesBtn.addEventListener("click", ()=>{
+    partyPop();
+    setActive(quizScreen);
+    state.step = 0;
+    state.answers = [];
+    renderQuestion();
+  });
+
+  // Skip runs away (but not on very small screens)
+  function dodgeSkip(){
+    if(window.innerWidth <= 520){
+      showToast("Skip nahi babe 😚 Next karo 💖");
+      return;
+    }
+    showToast("Skip? Nooo 😚");
+    randomPosInArena(skipBtn, skipArena);
+    heartBurst(12);
+  }
+  skipBtn.addEventListener("mouseenter", dodgeSkip);
+  skipBtn.addEventListener("touchstart", (e)=>{ e.preventDefault(); dodgeSkip(); }, {passive:false});
+  skipBtn.addEventListener("click", (e)=>{ e.preventDefault(); dodgeSkip(); });
+
+  function renderQuestion(){
+    updateProgress();
+    const q = questions[state.step];
+    qText.textContent = q.q;
+    miniText.textContent = q.mini || "";
+    optionsDiv.innerHTML = "";
+
+    if(q.type === "radio"){
+      q.options.forEach(opt=>{
+        const label = document.createElement("label");
+        label.className = "opt";
+        label.innerHTML = `
+          <input type="radio" name="opt" value="${escapeHtml(opt)}">
+          <span>${escapeHtml(opt)}</span>
+        `;
+        optionsDiv.appendChild(label);
+      });
+    } else {
+      const wrap = document.createElement("div");
+      wrap.className = "rangeWrap";
+      wrap.innerHTML = `
+        <input type="range" min="${q.min}" max="${q.max}" value="30" id="rangeInput" />
+        <div class="rangeMeta">
+          <span class="pill">0% = bilkul nahi</span>
+          <span class="pill">Value: <b id="rangeVal">30</b>%</span>
+          <span class="pill">100% = haan</span>
+        </div>
+      `;
+      optionsDiv.appendChild(wrap);
+      const range = wrap.querySelector("#rangeInput");
+      const val = wrap.querySelector("#rangeVal");
+      range.addEventListener("input", ()=> val.textContent = range.value);
+    }
+  }
+
+  function collectAnswer(){
+    const q = questions[state.step];
+    if(q.type === "radio"){
+      const checked = document.querySelector('input[name="opt"]:checked');
+      if(!checked) return null;
+      return checked.value;
+    }
+    const range = document.getElementById("rangeInput");
+    if(!range) return null;
+    return `${range.value}%`;
+  }
+
+  nextBtn.addEventListener("click", ()=>{
+    const q = questions[state.step];
+    const ans = collectAnswer();
+    if(ans === null){
+      showToast("Oyyy meri Rasmalai 😚 ek option select karo na 💖");
+      return;
+    }
+    if(q.mustBe && ans !== q.mustBe){
+      showToast("Hehe… galat 😝 (sahi answer: Tum 🥹💖)");
+      heartBurst(18);
+      return;
+    }
+
+    state.answers.push({ q: q.q, a: ans });
+
+    partyPop();
+    heartBurst(22);
+
+    state.step++;
+    if(state.step < questions.length){
+      renderQuestion();
+    } else {
+      openFinal();
+    }
+  });
+
+  function openFinal(){
+    const yourName = (yourNameInput.value || "Anu").trim() || "Anu";
+    const herName  = (herNameInput.value  || "Khushu").trim() || "Khushu";
+
+    finalTitle.textContent = `Happy Valentine’s Day ${herName} 💖`;
+
+    qaPrint.innerHTML = "";
+    state.answers.forEach(item=>{
+      const div = document.createElement("div");
+      div.className = "qa";
+      div.innerHTML = `<b>Q:</b> ${escapeHtml(item.q)}<br><b>A:</b> ${escapeHtml(item.a)}`;
+      qaPrint.appendChild(div);
+    });
+
+    finalMsg.innerHTML = `
+      <b>Happy Valentine’s Day, my baby ♥️💫🌹💖</b><br><br>
+
+      I wish that you always stay with me 🥰🤞💞 and that this new journey of our life together 💕🚶‍♂️🚶‍♀️✨
+      moves ahead in the most beautiful way, just like we dream 🌈💫🌸<br><br>
+
+      In such a short time, we’ve already created so many special couple moments 🫶🥹💋 — moments full of smiles 😊💕,
+      blushes 😳🌷, tight hugs 🤗💞, and heartbeats that feel meant only for us 💓💗✨<br><br>
+
+      I truly feel you are mine ❣️🥰 and I’m so grateful for you every single day 🙏💖🌹<br><br>
+
+      And honestly… we are the best looking couple ever 😌💘 and you are my first and last love ❤️♾️<br><br>
+
+      Today, for the first time, with all my pride 😌💘, love ❤️🔥, and emotions overflowing from my heart 🥹💓🌊,
+      I want to ask you something very special 💌🎀✨…<br><br>
+
+      <b>Will you be my Valentine? 💍🌹💋💖😘</b><br><br>
+
+      Forever yours 🫠💗♾️✨💕<br>
+      — <b>${escapeHtml(yourName)}</b>
+    `;
+
+    overlay.style.display = "block";
+    partyPop();
+    heartBurst(36);
+  }
+
+  pdfBtn.addEventListener("click", ()=> window.print());
+
+  restartBtn.addEventListener("click", ()=>{
+    overlay.style.display = "none";
+    setActive(startScreen);
+    badge.textContent = "Start";
+    bar.style.width = "0%";
+    startNoBtn.style.right = "16px";
+    startNoBtn.style.left = "auto";
+    startNoBtn.style.top = "36px";
+    showToast("Restarted 😄");
+  });
+
+  // Effects
+  function partyPop(){
+    const count = 60;
+    for(let i=0;i<count;i++){
+      const p = document.createElement("div");
+      p.style.position = "fixed";
+      p.style.left = (Math.random()*100) + "vw";
+      p.style.top = (-10 - Math.random()*20) + "px";
+      p.style.width = (6 + Math.random()*7) + "px";
+      p.style.height = (6 + Math.random()*16) + "px";
+      p.style.background = `hsl(${Math.random()*360}, 92%, 68%)`;
+      p.style.borderRadius = "8px";
+      p.style.opacity = "0.95";
+      p.style.zIndex = "2000";
+      p.style.transform = `rotate(${Math.random()*360}deg)`;
+      document.body.appendChild(p);
+
+      const fall = 950 + Math.random()*850;
+      const drift = (Math.random() - 0.5) * 260;
+
+      p.animate([
+        { transform: p.style.transform + " translate(0,0)", opacity: .95 },
+        { transform: p.style.transform + ` translate(${drift}px, ${window.innerHeight + 160}px)`, opacity: 0.0 }
+      ], { duration: fall, easing: "cubic-bezier(.2,.6,.2,1)" });
+
+      setTimeout(()=>p.remove(), fall + 70);
+    }
+  }
+
+  function heartBurst(n=22){
+    const cx = window.innerWidth/2;
+    const cy = window.innerHeight/2;
+    for(let i=0;i<n;i++){
+      const h = document.createElement("div");
+      h.textContent = Math.random() > 0.5 ? "💖" : "💘";
+      h.style.position = "fixed";
+      h.style.left = cx + "px";
+      h.style.top = cy + "px";
+      h.style.fontSize = (16 + Math.random()*22) + "px";
+      h.style.zIndex = "2001";
+      h.style.transform = "translate(-50%, -50%)";
+      h.style.pointerEvents = "none";
+      document.body.appendChild(h);
+
+      const angle = Math.random()*Math.PI*2;
+      const dist = 60 + Math.random()*170;
+      const dx = Math.cos(angle)*dist;
+      const dy = Math.sin(angle)*dist;
+      const dur = 700 + Math.random()*650;
+
+      h.animate([
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(1.15)`, opacity: 0 }
+      ], { duration: dur, easing:"cubic-bezier(.2,.7,.2,1)" });
+
+      setTimeout(()=>h.remove(), dur+30);
+    }
+  }
+
+  // Init
+  setActive(startScreen);
+  bar.style.width = "0%";
+  badge.textContent = "Start";
+</script>
+</body>
+</html>
